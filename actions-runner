@@ -1,0 +1,14 @@
+# Download the latest runner package
+$ Invoke-WebRequest -Uri https://github.com/actions/runner/releases/download/v2.296.2/actions-runner-win-x64-2.296.2.zip -OutFile actions-runner-win-x64-2.296.2.zip
+# Optional: Validate the hash
+$ if((Get-FileHash -Path actions-runner-win-x64-2.296.2.zip -Algorithm SHA256).Hash.ToUpper() -ne '96d03cf54dbfe2e016bd2aa5a08ffbd2a803b1899b0ae3eedf4bd18e370f14a4'.ToUpper()){ throw 'Computed checksum did not match' }
+# Extract the installer
+$ Add-Type -AssemblyName System.IO.Compression.FileSystem ; 
+[System.IO.Compression.ZipFile]::ExtractToDirectory("$PWD/actions-runner-win-x64-2.296.2.zip", "$PWD")
+
+
+# Create the runner and start the configuration experience
+$ ./config.cmd --url https://github.com/irynmaryrudy/Py-Sample-Application-uber --token A3CQ7RDSLOYJ6TVDRA2LDBLDFGMAW
+# Run it!
+$ ./run.cmd
+
